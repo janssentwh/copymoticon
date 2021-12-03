@@ -1,6 +1,17 @@
 import React, { useState } from 'react'
 import { graphql } from 'gatsby'
-import { Grid, Flex, GridItem, VStack, Input, Heading } from '@chakra-ui/react'
+import { FiCoffee } from 'react-icons/fi'
+import {
+  Grid,
+  Flex,
+  Spacer,
+  GridItem,
+  VStack,
+  Input,
+  Heading,
+  Button,
+  Link,
+} from '@chakra-ui/react'
 import Fuse from 'fuse.js'
 
 import Emoji from '../components/Emoji'
@@ -34,9 +45,18 @@ const IndexPage = ({ data }) => {
   return (
     <Flex p="clamp(2rem, 5%, 4rem)" flexDirection="column">
       <VStack spacing={8} mb={8} alignItems="start">
-        <Heading as="h1" size="lg">
-          Emojican
-        </Heading>
+        <Flex alignItems="center" w="100%">
+          <Heading as="h1" size="lg">
+            Copymoticon
+          </Heading>
+          <Spacer />
+          <Link href="https://buy.stripe.com/00g4iv53a56n7WU8ww" isExternal>
+            <Button title="Buy me a coffee">
+              <FiCoffee />
+            </Button>
+          </Link>
+        </Flex>
+
         <Heading as="h2" size="xs">
           Click to copy
         </Heading>
