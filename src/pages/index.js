@@ -11,6 +11,7 @@ import {
   Heading,
   Button,
   Link,
+  ColorModeProvider,
 } from '@chakra-ui/react'
 import Fuse from 'fuse.js'
 
@@ -43,55 +44,57 @@ const IndexPage = ({ data }) => {
   }
 
   return (
-    <Flex p="clamp(2rem, 5%, 4rem)" flexDirection="column">
-      <VStack spacing={8} mb={8} alignItems="start">
-        <Flex alignItems="center" w="100%">
-          <Heading as="h1" size="lg">
-            Copymoticon
-          </Heading>
-          <Spacer />
-          <Link href="https://buy.stripe.com/00g4iv53a56n7WU8ww" isExternal>
-            <Button title="Buy me a coffee">
-              <FiCoffee />
-            </Button>
-          </Link>
-        </Flex>
+    <ColorModeProvider options={{ useSystemColorMode: true }}>
+      <Flex p="clamp(2rem, 5%, 4rem)" flexDirection="column">
+        <VStack spacing={8} mb={8} alignItems="start">
+          <Flex alignItems="center" w="100%">
+            <Heading as="h1" size="lg">
+              Copymoticon
+            </Heading>
+            <Spacer />
+            <Link href="https://buy.stripe.com/00g4iv53a56n7WU8ww" isExternal>
+              <Button title="Buy me a coffee">
+                <FiCoffee />
+              </Button>
+            </Link>
+          </Flex>
 
-        <Heading as="h2" size="xs">
-          Click to copy
-        </Heading>
-        <Input
-          value={searchterm}
-          onInput={onSearch}
-          onBlur={resetSearch}
-          placeholder="Search..."
-        ></Input>
-      </VStack>
-      <Grid
-        templateColumns={'repeat(auto-fit, minmax(32px, 1fr))'}
-        gap={8}
-        flex="1"
-      >
-        {filteredItems.map((node, id) => {
-          return (
-            <GridItem key={id}>
-              <Emoji
-                emoji={
-                  node.node
-                    ? node?.node?.character
-                    : node?.item?.node?.character
-                }
-                unicodeName={
-                  node.node
-                    ? node?.node?.unicodeName
-                    : node?.item?.node?.unicodeName
-                }
-              />
-            </GridItem>
-          )
-        })}
-      </Grid>
-    </Flex>
+          <Heading as="h2" size="xs">
+            Click to copy
+          </Heading>
+          <Input
+            value={searchterm}
+            onInput={onSearch}
+            onBlur={resetSearch}
+            placeholder="Search..."
+          ></Input>
+        </VStack>
+        <Grid
+          templateColumns={'repeat(auto-fit, minmax(32px, 1fr))'}
+          gap={8}
+          flex="1"
+        >
+          {filteredItems.map((node, id) => {
+            return (
+              <GridItem key={id}>
+                <Emoji
+                  emoji={
+                    node.node
+                      ? node?.node?.character
+                      : node?.item?.node?.character
+                  }
+                  unicodeName={
+                    node.node
+                      ? node?.node?.unicodeName
+                      : node?.item?.node?.unicodeName
+                  }
+                />
+              </GridItem>
+            )
+          })}
+        </Grid>
+      </Flex>
+    </ColorModeProvider>
   )
 }
 
