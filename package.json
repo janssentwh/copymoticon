@@ -15,12 +15,22 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "@chakra-ui/gatsby-plugin": "^2.0.2",
+    "@chakra-ui/react": "^1.7.2",
+    "@emotion/react": "^11.7.0",
+    "@emotion/styled": "^11.6.0",
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
+    "framer-motion": "^5.3.3",
+    "fuse.js": "^6.4.6",
     "gatsby": "^4.3.0",
     "gatsby-plugin-mdx": "^3.3.0",
     "gatsby-source-filesystem": "^4.3.0",
+    "gatsby-transformer-json": "^4.3.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "prettier": "2.5.0"
   }
 }
