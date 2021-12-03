@@ -1,27 +1,31 @@
 import React, { useState } from 'react'
 import { graphql } from 'gatsby'
-import { FiCoffee } from 'react-icons/fi'
 import {
   Grid,
   Flex,
   Spacer,
   GridItem,
   VStack,
+  HStack,
   Input,
   Heading,
   Button,
   Link,
   ColorModeProvider,
+  useColorMode,
 } from '@chakra-ui/react'
 import Fuse from 'fuse.js'
 
 import Emoji from '../components/Emoji'
 
 const IndexPage = ({ data }) => {
+  const { colorMode, toggleColorMode } = useColorMode()
   const [searchterm, setSearchterm] = useState('')
   const [filteredItems, setFilteredItems] = useState(
     data.allAllEmoticonsJson.edges
   )
+
+  console.log(colorMode)
 
   const fuse = new Fuse(data.allAllEmoticonsJson.edges, {
     keys: ['node.unicodeName'],
@@ -30,7 +34,7 @@ const IndexPage = ({ data }) => {
   const onSearch = (event) => {
     setSearchterm(event.target.value)
 
-    if (searchterm?.length > 0) {
+    if (searchterm?.length > 1) {
       setFilteredItems(fuse.search(searchterm))
     } else {
       setFilteredItems(data.allAllEmoticonsJson.edges)
@@ -52,11 +56,19 @@ const IndexPage = ({ data }) => {
               Copymoticon
             </Heading>
             <Spacer />
-            <Link href="https://buy.stripe.com/00g4iv53a56n7WU8ww" isExternal>
-              <Button title="Buy me a coffee">
-                <FiCoffee />
+            <HStack spacing={4}>
+              <Button onClick={toggleColorMode} background="transparent">
+                {colorMode === 'dark' ? '☀️' : '🌙'}
               </Button>
-            </Link>
+              <Button background="transparent">
+                <Link
+                  href="https://buy.stripe.com/00g4iv53a56n7WU8ww"
+                  isExternal
+                >
+                  ☕
+                </Link>
+              </Button>
+            </HStack>
           </Flex>
 
           <Heading as="h2" size="xs">
