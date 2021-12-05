@@ -6,17 +6,20 @@ import {
   Spacer,
   GridItem,
   VStack,
-  HStack,
   Input,
+  InputGroup,
+  InputRightElement,
   Heading,
   Button,
-  Link,
   ColorModeProvider,
   useColorMode,
 } from '@chakra-ui/react'
+import { SmallCloseIcon } from '@chakra-ui/icons'
+
 import Fuse from 'fuse.js'
 
 import Emoji from '../components/Emoji'
+import MainMenu from '../components/Menu'
 
 const IndexPage = ({ data }) => {
   const { colorMode, toggleColorMode } = useColorMode()
@@ -25,8 +28,6 @@ const IndexPage = ({ data }) => {
     data.allAllEmoticonsJson.edges
   )
 
-  console.log(colorMode)
-
   const fuse = new Fuse(data.allAllEmoticonsJson.edges, {
     keys: ['node.unicodeName'],
   })
@@ -34,11 +35,20 @@ const IndexPage = ({ data }) => {
   const onSearch = (event) => {
     setSearchterm(event.target.value)
 
-    if (searchterm?.length > 1) {
+    if (searchterm?.length > 2) {
       setFilteredItems(fuse.search(searchterm))
     } else {
-      setFilteredItems(data.allAllEmoticonsJson.edges)
+      resetFilteredItems()
     }
+  }
+
+  const resetFilteredItems = () => {
+    setFilteredItems(data.allAllEmoticonsJson.edges)
+  }
+
+  const handleRemoveInput = () => {
+    setSearchterm('')
+    resetFilteredItems()
   }
 
   const resetSearch = () => {
@@ -56,30 +66,40 @@ const IndexPage = ({ data }) => {
               Copymoticon
             </Heading>
             <Spacer />
-            <HStack spacing={4}>
-              <Button onClick={toggleColorMode} background="transparent">
-                {colorMode === 'dark' ? '☀️' : '🌙'}
-              </Button>
-              <Button background="transparent">
-                <Link
-                  href="https://buy.stripe.com/00g4iv53a56n7WU8ww"
-                  isExternal
-                >
-                  ☕
-                </Link>
-              </Button>
-            </HStack>
+            <Button
+              onClick={toggleColorMode}
+              background="transparent"
+              title={
+                colorMode === 'dark' ? 'Enable lightmode' : 'Enable darkmode'
+              }
+            >
+              {colorMode === 'dark' ? '☀️' : '🌙'}
+            </Button>
+            <MainMenu />
           </Flex>
+          <InputGroup size="md" maxW="420px">
+            <Input
+              value={searchterm}
+              onInput={onSearch}
+              onBlur={resetSearch}
+              placeholder="Search..."
+            />
 
-          <Heading as="h2" size="xs">
-            Click to copy
-          </Heading>
-          <Input
-            value={searchterm}
-            onInput={onSearch}
-            onBlur={resetSearch}
-            placeholder="Search..."
-          ></Input>
+            {searchterm.length >= 1 ? (
+              <InputRightElement width="2.5rem">
+                <Button
+                  h="1.75rem"
+                  size="sm"
+                  right="6px"
+                  onClick={handleRemoveInput}
+                >
+                  <SmallCloseIcon />
+                </Button>
+              </InputRightElement>
+            ) : (
+              ''
+            )}
+          </InputGroup>
         </VStack>
         <Grid
           templateColumns={'repeat(auto-fit, minmax(32px, 1fr))'}
