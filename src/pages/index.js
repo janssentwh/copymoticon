@@ -11,18 +11,17 @@ import {
   InputRightElement,
   Heading,
   Button,
-  ColorModeProvider,
-  useColorMode,
+  useToast,
 } from '@chakra-ui/react'
 import { SmallCloseIcon } from '@chakra-ui/icons'
 
 import Fuse from 'fuse.js'
 
 import Emoji from '../components/Emoji'
-import MainMenu from '../components/Menu'
+import Layout from '../components/layout'
 
 const IndexPage = ({ data }) => {
-  const { colorMode, toggleColorMode } = useColorMode()
+  const toast = useToast()
   const [searchterm, setSearchterm] = useState('')
   const [filteredItems, setFilteredItems] = useState(
     data.allAllEmoticonsJson.edges
@@ -57,25 +56,25 @@ const IndexPage = ({ data }) => {
     }
   }
 
+  const copyHandler = (emojiName) => {
+    toast({
+      title: 'Copied',
+      description: `You copied ${emojiName}`,
+      status: 'success',
+      duration: 1000,
+      isClosable: true,
+    })
+  }
+
   return (
-    <ColorModeProvider options={{ useSystemColorMode: true }}>
+    <Layout>
       <Flex p="clamp(2rem, 5%, 4rem)" flexDirection="column">
         <VStack spacing={8} mb={8} alignItems="start">
           <Flex alignItems="center" w="100%">
             <Heading as="h1" size="lg">
-              Copymoticon
+              Copymoticon!
             </Heading>
             <Spacer />
-            <Button
-              onClick={toggleColorMode}
-              background="transparent"
-              title={
-                colorMode === 'dark' ? 'Enable lightmode' : 'Enable darkmode'
-              }
-            >
-              {colorMode === 'dark' ? '☀️' : '🌙'}
-            </Button>
-            <MainMenu />
           </Flex>
           <InputGroup size="md" maxW="420px">
             <Input
@@ -120,13 +119,14 @@ const IndexPage = ({ data }) => {
                       ? node?.node?.unicodeName
                       : node?.item?.node?.unicodeName
                   }
+                  copyHandler={copyHandler}
                 />
               </GridItem>
             )
           })}
         </Grid>
       </Flex>
-    </ColorModeProvider>
+    </Layout>
   )
 }
 

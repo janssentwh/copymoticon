@@ -1,9 +1,12 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: 'https://www.yourdomain.tld',
-    title: 'Emoji',
+    siteUrl: 'https://www.copymoticon.com',
+    title: 'Copymoticon!',
+    description:
+      'Use Copymoticon to easily find and copy emoticons on devices without a emoticon keyboard',
   },
   plugins: [
+    'gatsby-plugin-react-helmet',
     'gatsby-plugin-mdx',
     {
       resolve: 'gatsby-source-filesystem',
